@@ -1,3 +1,4 @@
+-- | Helper methods for operating on LED displays
 module Data.Shiny  where
 
 import Data.Colour.RGBSpace
@@ -28,9 +29,10 @@ rotate n l
   | otherwise = rotateLeft (-n) l
                 
 -- | Data type for operating on slices of a list
-data ListFocus a b = ListFocus { left :: [a],
-                                 middle :: [b],
-                                 right :: [a]}                 
+data ListFocus a b =
+  ListFocus { left :: [a],
+              middle :: [b],
+              right :: [a]}                 
 
 instance (Show a, Show b) => Show (ListFocus a b) where
   show (ListFocus l m r) = "Left: " ++ show l

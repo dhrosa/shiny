@@ -1,3 +1,5 @@
+module Shiny.Server where
+
 import Network (listenOn, withSocketsDo, accept, PortID(..), Socket)
 import System.Environment (getArgs)
 import System.IO (hSetBuffering, hGetLine, hPutStrLn, BufferMode(..), Handle)
