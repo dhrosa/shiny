@@ -1,5 +1,5 @@
 -- | Helper methods for operating on LED displays
-module Shiny where
+module Shiny.Shiny where
 
 import Data.Colour.RGBSpace
 import Data.Word (Word8)

@@ -62,6 +62,7 @@ exceptOn pred (Focus i l) = Focus (filter (not.pred) i) l
 between :: Int    -- ^ The start, inclusive
            -> Int -- ^ The end, inclusive
            -> Int -- ^ The index
+           -> Bool
 between start end i = start <= i && i < end
 
 -- | Applies a function to the elements in focus

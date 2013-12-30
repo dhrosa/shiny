@@ -5,6 +5,10 @@ import System.Environment (getArgs)
 import System.IO (hSetBuffering, hGetLine, hPutStrLn, BufferMode(..), Handle)
 import Control.Concurrent (forkIO)
 
+import Shiny.Focus
+import Shiny.Hardware
+import Shiny.Hardware.Dummy
+
 echo :: Handle -> IO()
 echo client = do
   line <- hGetLine client
@@ -21,4 +25,10 @@ clientHandler sock = do
 main = do
   socket <- listenOn $ PortNumber 3000
   putStrLn $ "Server started."
+  hw <- mkDummyHardware 10
+  disp <- readDisplay hw
+  let newDisp = unfocus $ apply (fmap (+100)) $ range 0 3 disp
+  updateDisplay hw newDisp
+  newDisp2 <- readDisplay hw
+  print newDisp2
   clientHandler socket
