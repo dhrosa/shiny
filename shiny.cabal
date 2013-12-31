@@ -49,10 +49,15 @@ library
   -- Modules exported by the library.
   exposed-modules:     Shiny.Shiny, Shiny.Focus, Shiny.Server,
                        Shiny.Hardware, Shiny.Hardware.Dummy
+                       Shiny.FS
 
   -- Modules included in this library but not exported.
   -- other-modules:       
   
   -- Other library packages from which modules are imported.
-  build-depends:       base ==4.6.*, colour ==2.3.*, network ==2.4.*
-  
+  build-depends:       base ==4.6.*, colour ==2.3.*, network ==2.4.*, time, unix, HFuse, bytestring
+
+executable ledfs
+           main-is: Shiny/FS.hs
+           ghc-options: -threaded -main-is Shiny.FS
+           build-depends: base ==4.6.*, colour ==2.3.*, network ==2.4.*, time, unix, HFuse, bytestring
