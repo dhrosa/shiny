@@ -30,5 +30,4 @@ main = do
   let newDisp = unfocus $ apply (fmap (+100)) $ range 0 3 disp
   updateDisplay hw newDisp
   newDisp2 <- readDisplay hw
-  print newDisp2
   clientHandler socket
