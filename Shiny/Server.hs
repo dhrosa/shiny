@@ -27,7 +27,7 @@ main = do
   putStrLn $ "Server started."
   hw <- mkDummyHardware 10
   disp <- readDisplay hw
-  let newDisp = unfocus $ apply (fmap (+100)) $ range 0 3 disp
+  let newDisp = apply (fmap (+100)) (range 0 3) disp
   updateDisplay hw newDisp
   newDisp2 <- readDisplay hw
   clientHandler socket

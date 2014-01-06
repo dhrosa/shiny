@@ -8,7 +8,12 @@ import Data.Time (getCurrentTime)
 mkDummyHardware :: Int -> IO (Hardware)
 mkDummyHardware size = do
   ref <- newIORef (emptyDisplay size)
-  return (Hardware (read ref) (writeIORef ref))
+  return $ Hardware {
+    readDisplay = read ref,
+    updateDisplay = writeIORef ref,
+    displaySize = return size,
+    resetDisplay = return ()
+    }
   where read ref = do
           disp <- readIORef ref
           time <- getCurrentTime
