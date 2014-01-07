@@ -13,7 +13,8 @@ module Shiny.Focus (
   exceptOn,
   -- * Focus utilities
   between,
-  apply
+  apply,
+  focusOn
   ) where
 
 -- | Represents a subsection of a list
@@ -69,3 +70,7 @@ apply func (Focus ilist) = zipWith indexFunc [0..]
     indexFunc i x = if i `elem` ilist
                     then func x
                     else x
+
+-- | Returns only the elements of the list focused on
+focusOn ::Focus-> [a] -> [a]
+focusOn (Focus ilist) = map snd . filter ((`elem` ilist) . fst) . zip [0..]
