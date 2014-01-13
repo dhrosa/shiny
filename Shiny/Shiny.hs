@@ -1,5 +1,15 @@
 -- | Helper methods for operating on LED displays
-module Shiny.Shiny where
+module Shiny.Shiny (
+  RGB(..),
+  Word8,
+  LED(..),
+  Display,
+  showDisplay,
+  emptyDisplay,
+  rotateLeft,
+  rotateRight,
+  rotate  
+  ) where
 
 import Data.Colour.RGBSpace
 import Data.Word (Word8)
