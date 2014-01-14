@@ -14,6 +14,7 @@ module Shiny.Focus (
   -- * Focus utilities
   between,
   apply,
+  replace,
   focusOn
   ) where
 
@@ -70,6 +71,17 @@ apply func (Focus ilist) = zipWith indexFunc [0..]
     indexFunc i x = if i `elem` ilist
                     then func x
                     else x
+
+-- | Replaces the focused elements
+replace :: Focus  -- ^ The focus
+           -> [a] -- ^ What to replace the focused elements with
+           -> [a] -- ^ The original list
+           -> [a] -- ^ The new list
+replace (Focus ilist) rlist = foldl (.) id repFuncs -- Form a replacement function for each relevant index, and compose them
+  where
+    repFuncs = zipWith rep ilist rlist
+    rep i r xs = let (left, (_:right)) = splitAt i xs
+                 in left ++ [r] ++ right
 
 -- | Returns only the elements of the list focused on
 focusOn ::Focus-> [a] -> [a]
