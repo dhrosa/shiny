@@ -18,6 +18,8 @@ module Shiny.Focus (
   focusOn
   ) where
 
+import Data.List ((\\))
+
 -- | Represents a subsection of a list
 newtype Focus = Focus {
   indices :: [Int]
@@ -33,9 +35,11 @@ range :: Int -> Int -> Focus
 range start end = Focus [start..end-1]
 
 -- | Emulation of python slices.
-slice :: (Int, Int, Int) -- ^ The inclusive start, exclusive start, and the step between indices
-         -> Focus
-slice (start, end, step) = Focus [start,start+step..end-1]
+slice :: Int -> -- ^ The start, inclusive
+         Int -> -- ^ The end, inclusive
+         Int -> -- ^ The step between indices
+         Focus
+slice start end step = Focus [start,start+step..end-1]
 
 -- | Shifts each index in a focus to the right by n
 shiftRight :: Int -> Focus -> Focus
@@ -49,13 +53,13 @@ shiftLeft n = shiftRight (-n)
 shift :: Int -> Focus -> Focus
 shift = shiftRight
 
--- | Adds indices satisfying the predicates
-alsoOn :: (Int -> Bool) -> Focus -> Focus
-alsoOn pred (Focus i) = Focus (i ++ filter pred [0..])
+-- | Combines two focuses together
+alsoOn :: Focus -> Focus -> Focus
+alsoOn (Focus a) (Focus b) = Focus (a ++ b)
 
--- | Removes the indices satisfying the predicate
-exceptOn :: (Int -> Bool) -> Focus -> Focus
-exceptOn pred (Focus i) = Focus (filter (not.pred) i)
+-- | Removes the second focus from the first
+exceptOn :: Focus -> Focus -> Focus
+exceptOn (Focus a) (Focus b) = Focus (a \\ b)
 
 -- | Creates a predicate on indices between two indices
 between :: Int    -- ^ The start, inclusive
