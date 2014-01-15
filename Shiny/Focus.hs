@@ -70,9 +70,10 @@ between start end i = start <= i && i < end
 
 -- | Applies a function to the elements in focus
 apply :: (a -> a) -> Focus -> [a] -> [a]
-apply func (Focus ilist) = zipWith indexFunc [0..]
+apply func (Focus ilist) list = zipWith indexFunc [0..] list
   where
-    indexFunc i x = if i `elem` ilist
+    n = length list
+    indexFunc i x = if i `elem` (validInds list ilist)
                     then func x
                     else x
 
@@ -81,12 +82,17 @@ replace :: Focus  -- ^ The focus
            -> [a] -- ^ What to replace the focused elements with
            -> [a] -- ^ The original list
            -> [a] -- ^ The new list
-replace (Focus ilist) rlist = foldl (.) id repFuncs -- Form a replacement function for each relevant index, and compose them
+replace (Focus ilist) rlist orig = foldl (.) id repFuncs $ orig -- Form a replacement function for each relevant index, and compose them
   where
-    repFuncs = zipWith rep ilist rlist
+    repFuncs = zipWith rep (validInds orig ilist) rlist
     rep i r xs = let (left, (_:right)) = splitAt i xs
                  in left ++ [r] ++ right
 
 -- | Returns only the elements of the list focused on
 focusOn ::Focus-> [a] -> [a]
-focusOn (Focus ilist) list = map (list !!) ilist
+focusOn (Focus ilist) list = map (list !!) (validInds list ilist)
+
+-- | Really hacky solution to infinite focus problem 
+validInds :: [a] -> [Int] -> [Int]
+validInds list = filter (< n) . take (n*n)
+  where n = length list
