@@ -89,4 +89,4 @@ replace (Focus ilist) rlist = foldl (.) id repFuncs -- Form a replacement functi
 
 -- | Returns only the elements of the list focused on
 focusOn ::Focus-> [a] -> [a]
-focusOn (Focus ilist) = map snd . filter ((`elem` ilist) . fst) . zip [0..]
+focusOn (Focus ilist) list = map (list !!) ilist
